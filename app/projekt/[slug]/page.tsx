@@ -56,7 +56,7 @@ export default function BlogPostPage() {
                 day: "numeric",
               })}
             </time>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 text-balance">{post.title}</h1>
+            <h1 className="font-heading text-4xl md:text-5xl font-bold mb-6 text-balance">{post.title}</h1>
           </header>
 
           {post.featuredImage && (

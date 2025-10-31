@@ -3,7 +3,7 @@
  * Plugin Name: GeNeGo v0 Integration
  * Plugin URI: https://wordpress.genego.ch
  * Description: Provides REST API endpoints with CORS support for v0 integration
- * Version: 1.2.0
+ * Version: 1.3.0
  * Author: GeNeGo
  * License: GPL v2 or later
  */
@@ -247,13 +247,29 @@ class GeNeGo_V0_Integration {
         
         $content = apply_filters('the_content', $page->post_content);
         
+        // Strip CSS classes from HTML tags while keeping the tags themselves
+        $content = $this->strip_css_classes($content);
+        
         return [
             'id' => $page->ID,
             'title' => $page->post_title,
             'slug' => $page->post_name,
-            'content' => $content, // Return HTML string directly
+            'content' => $content,
             'featuredImage' => get_the_post_thumbnail_url($page->ID, 'large'),
         ];
+    }
+    
+    /**
+     * Strip CSS classes from HTML content while keeping tags
+     */
+    private function strip_css_classes($content) {
+        // Remove class attributes from all HTML tags
+        $content = preg_replace('/\s*class\s*=\s*["\'][^"\']*["\']/i', '', $content);
+        
+        // Also remove any standalone class attributes without quotes (edge case)
+        $content = preg_replace('/\s*class\s*=\s*\S+/i', '', $content);
+        
+        return $content;
     }
     
     /**

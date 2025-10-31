@@ -15,25 +15,19 @@ export default function HomePage() {
   useEffect(() => {
     Promise.all([fetchWordPressPage("home"), fetchWordPressPostsByCategory("bildergalerie")])
       .then(([homeData, galleryPosts]) => {
-        console.log("[v0] Home page data:", homeData)
-        console.log("[v0] Gallery posts fetched:", galleryPosts.length)
-
         setPageContent(homeData.content || "")
 
         const slides: Array<{ id: number; image: string; title: string; description: string }> = []
 
         galleryPosts.forEach((post) => {
-          if (post.featuredImage) {
-            slides.push({
-              id: post.id,
-              image: post.featuredImage,
-              title: post.title,
-              description: post.excerpt.replace(/<[^>]+>/g, "").trim() || "",
-            })
-          }
+          slides.push({
+            id: post.id,
+            image: post.featuredImage || "/genego-housing-project.jpg",
+            title: post.title,
+            description: post.excerpt.replace(/<[^>]+>/g, "").trim() || "",
+          })
         })
 
-        console.log("[v0] Created", slides.length, "slides from gallery posts")
         setGallerySlides(slides)
         setLoading(false)
       })
@@ -71,12 +65,12 @@ export default function HomePage() {
       <HeroCarousel slides={carouselSlides} />
 
       <section className="py-16 md:py-24">
-        <div className="container mx-auto px-4 max-w-5xl">
+        <div className="container mx-auto px-4">
           <div className="wordpress-content" dangerouslySetInnerHTML={{ __html: pageContent }} />
         </div>
       </section>
 
-      <div className="container mx-auto px-4 max-w-4xl pb-16">
+      <div className="container mx-auto px-4 pb-16">
         <NextPageButton currentSlug="home" />
       </div>
     </main>

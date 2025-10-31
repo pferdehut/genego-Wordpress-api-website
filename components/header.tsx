@@ -4,6 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { WavyLine } from "@/components/wavy-line"
 
 interface MenuItem {
   id: number
@@ -23,7 +24,7 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center">
           <img src="/images/design-mode/5ccfa224-676a-4750-8a25.png" alt="GeNeGo Logo" className="h-8 w-auto" />
@@ -91,6 +92,7 @@ export function Header() {
           ))}
         </nav>
       </div>
+      <WavyLine className="text-border w-full" />
     </header>
   )
 }

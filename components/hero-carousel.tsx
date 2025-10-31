@@ -24,7 +24,7 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
   }, [slides])
 
   useEffect(() => {
-    if (slides.length <= 1) {
+    if (slides.length <= 0) {
       console.log("[v0] Only 1 slide, skipping auto-advance")
       return
     }
@@ -49,7 +49,7 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
   }
 
   return (
-    <section className="relative h-[70vh] md:h-[80vh] overflow-hidden mt-16">
+    <section className="relative h-[70vh] md:h-[80vh] overflow-hidden">
       {/* Slides */}
       {slides.map((slide, index) => (
         <div
@@ -89,7 +89,7 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
       <div className="absolute inset-0 flex items-end z-10">
         <div className="w-full bg-primary py-12 md:py-16">
           <div className="container mx-auto px-4">
-            <h1 className="text-4xl md:text-6xl font-bold text-primary-foreground mb-4 text-balance">
+            <h1 className="font-heading text-4xl md:text-6xl font-bold text-primary-foreground mb-4 text-balance">
               {slides[currentSlide]?.title}
             </h1>
             <p className="text-lg md:text-xl text-primary-foreground/90 max-w-4xl text-pretty">

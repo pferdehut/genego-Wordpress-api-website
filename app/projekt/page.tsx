@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { fetchWordPressPage, fetchWordPressPostsByCategory } from "@/lib/wordpress-actions"
 import { NextPageButton } from "@/components/next-page-button"
+import { WavyLine } from "@/components/wavy-line"
 
 export default function ProjektPage() {
   const [page, setPage] = useState<Awaited<ReturnType<typeof fetchWordPressPage>> | null>(null)
@@ -25,7 +26,7 @@ export default function ProjektPage() {
   if (loading || !page) {
     return (
       <main className="pt-24 pb-16">
-        <div className="container mx-auto px-4 max-w-4xl text-center">
+        <div className="container mx-auto px-4 text-center">
           <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent mb-4" />
           <p className="text-muted-foreground">Seite wird geladen...</p>
         </div>
@@ -35,11 +36,11 @@ export default function ProjektPage() {
 
   return (
     <main className="pt-24 pb-16">
-      <div className="container mx-auto px-4 max-w-4xl">
-        <h1 className="text-4xl md:text-5xl font-bold mb-8 text-balance">{page.title}</h1>
+      <div className="container mx-auto px-4">
+        <h1 className="font-heading text-4xl md:text-5xl font-bold mb-8 text-balance">{page.title}</h1>
 
         <div
-          className="prose prose-lg max-w-none mb-16"
+          className="wordpress-content prose prose-lg max-w-none mb-16"
           dangerouslySetInnerHTML={{
             __html: page.content,
           }}
@@ -48,7 +49,10 @@ export default function ProjektPage() {
         {posts.length > 0 && (
           <section className="mt-16">
             <h2 className="text-3xl font-bold mb-12">Was bisher geschah</h2>
-            <div className="relative space-y-16 before:absolute before:left-0 before:top-0 before:bottom-0 before:w-0.5 before:bg-border pl-8">
+            <div className="relative space-y-16 pl-12">
+              <div className="absolute left-0 top-0 bottom-0 w-[4px]">
+                <WavyLine orientation="vertical" className="text-primary/30 h-full" />
+              </div>
               {posts.map((post, index) => {
                 const postDate = new Date(post.date)
                 const monthYear = postDate.toLocaleDateString("de-CH", {
@@ -59,8 +63,7 @@ export default function ProjektPage() {
 
                 return (
                   <div key={post.id} className="relative">
-                    {/* Timeline dot */}
-                    <div className="absolute -left-8 top-0 w-4 h-4 rounded-full bg-primary border-4 border-background" />
+                    <div className="absolute -left-12 top-0 w-8 h-8 rounded-full bg-primary border-4 border-background" />
 
                     {/* Month/Year label */}
                     <div className="mb-4">
@@ -82,7 +85,10 @@ export default function ProjektPage() {
                       )}
                       <div>
                         <h3 className="text-2xl font-bold mb-4">{post.title}</h3>
-                        <div className="prose prose-lg max-w-none" dangerouslySetInnerHTML={{ __html: post.content }} />
+                        <div
+                          className="wordpress-content prose prose-lg max-w-none"
+                          dangerouslySetInnerHTML={{ __html: post.content }}
+                        />
                       </div>
                     </div>
                   </div>

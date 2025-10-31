@@ -5,6 +5,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { fetchWordPressPages } from "@/lib/wordpress-actions"
 import { ArrowRight } from "lucide-react"
+import { WavyLine } from "@/components/wavy-line"
 
 interface NextPageButtonProps {
   currentSlug: string
@@ -47,9 +48,10 @@ export function NextPageButton({ currentSlug }: NextPageButtonProps) {
   }
 
   return (
-    <div className="mt-16 pt-8 border-t">
+    <div className="mt-16 pt-8 flex flex-wrap justify-center-safe">
+      <WavyLine className="text-border w-full mb-8" />
       <Link href={nextPage.url}>
-        <Button size="lg" className="group">
+        <Button size="lg" className="group wp-block-file__button rounded-[100px]">
           Erfahre mehr über {nextPage.title}
           <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
         </Button>
