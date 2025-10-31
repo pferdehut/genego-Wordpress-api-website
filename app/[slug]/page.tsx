@@ -1,51 +1,20 @@
-"use client"
-
 import { notFound } from "next/navigation"
-import { fetchWordPressPage, fetchWordPressPostsByCategory } from "@/lib/wordpress-actions"
-import { useEffect, useState } from "react"
+import { fetchWordPressPage, fetchWordPressPostsByCategory, fetchAllWordPressSlugs } from "@/lib/wordpress-actions"
 import { NextPageButton } from "@/components/next-page-button"
 import { WavyLine } from "@/components/wavy-line"
 
-export default function DynamicPage({ params }: { params: { slug: string } }) {
-  const [pageData, setPageData] = useState<any>(null)
-  const [posts, setPosts] = useState<any[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
+export async function generateStaticParams() {
+  const slugs = await fetchAllWordPressSlugs()
+  return slugs.map((slug) => ({ slug }))
+}
 
-  useEffect(() => {
-    async function loadPage() {
-      try {
-        const [data, postsData] = await Promise.all([
-          fetchWordPressPage(params.slug),
-          fetchWordPressPostsByCategory(params.slug),
-        ])
+export default async function DynamicPage({ params }: { params: { slug: string } }) {
+  const [pageData, posts] = await Promise.all([
+    fetchWordPressPage(params.slug),
+    fetchWordPressPostsByCategory(params.slug),
+  ])
 
-        if (!data) {
-          setError(true)
-        } else {
-          setPageData(data)
-          setPosts(postsData)
-        }
-      } catch (err) {
-        console.error("[v0] Error loading page:", err)
-        setError(true)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    loadPage()
-  }, [params.slug])
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-      </div>
-    )
-  }
-
-  if (error || !pageData) {
+  if (!pageData) {
     notFound()
   }
 
@@ -78,14 +47,12 @@ export default function DynamicPage({ params }: { params: { slug: string } }) {
                   <div key={post.id} className="relative">
                     <div className="absolute -left-12 top-0 w-8 h-8 rounded-full bg-primary border-4 border-background" />
 
-                    {/* Month/Year label */}
                     <div className="mb-4">
                       <div className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
                         {day}. {monthYear}
                       </div>
                     </div>
 
-                    {/* Post content */}
                     <div className="bg-card overflow-hidden">
                       {post.featuredImage && (
                         <div className="aspect-video w-full overflow-hidden">

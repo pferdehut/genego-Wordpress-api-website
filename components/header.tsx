@@ -18,6 +18,7 @@ const MENU_ITEMS: MenuItem[] = [
   { id: 2, title: "Unser Projekt", url: "/unser-projekt", order: 2 },
   { id: 3, title: "Unsere Genossenschaft", url: "/unsere-genossenschaft", order: 3 },
   { id: 4, title: "Unsere Mitgliedschaft", url: "/unsere-mitgliedschaft", order: 4 },
+  { id: 5, title: "Unsere Dokumente und Links", url: "/downloads-links", order: 5 },
 ]
 
 export function Header() {

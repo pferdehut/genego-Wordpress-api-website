@@ -439,6 +439,28 @@ export async function fetchWordPressMenu(menuSlug: string) {
   return []
 }
 
+export async function fetchAllWordPressSlugs() {
+  console.log("[v0] [Server Action] Fetching all WordPress page slugs for static generation")
+
+  const baseUrl = getWordPressBaseUrl()
+
+  if (!baseUrl) {
+    console.log("[v0] [Server Action] No API URL, returning fallback slugs")
+    return ["unser-projekt", "kontakt"]
+  }
+
+  try {
+    const pages = await fetchWordPressPages()
+    const slugs = pages.filter((page: any) => page.slug && page.slug !== "home").map((page: any) => page.slug)
+
+    console.log("[v0] [Server Action] Found slugs for static generation:", slugs)
+    return slugs
+  } catch (error) {
+    console.log("[v0] [Server Action] Error fetching slugs:", error)
+    return ["unser-projekt", "kontakt"]
+  }
+}
+
 function getFallbackHomeData() {
   return {
     heroSlides: [
