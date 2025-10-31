@@ -73,7 +73,7 @@ export default function ProjektPage() {
                     </div>
 
                     {/* Post content */}
-                    <div className="bg-card overflow-hidden">
+                    <div className="bg-card overflow-hidden shadow-lg">
                       {post.featuredImage && (
                         <div className="aspect-video w-full overflow-hidden">
                           <img

@@ -134,18 +134,8 @@ export async function fetchWordPressPage(slug: string) {
 
     if (response.ok) {
       const data = await response.json()
-      console.log("[v0] [Server Action] Plugin response data:", JSON.stringify(data).substring(0, 200))
-
-      const title = typeof data.title === "string" ? data.title : data.title?.rendered || "Untitled"
-      const content = typeof data.content === "string" ? data.content : data.content?.rendered || ""
-
-      console.log("[v0] [Server Action] Parsed title:", title)
-      console.log("[v0] [Server Action] Parsed content (first 100 chars):", content.substring(0, 100))
-
-      return {
-        title,
-        content,
-      }
+      console.log("[v0] [Server Action] Successfully fetched from plugin endpoint")
+      return data
     }
   } catch (error) {
     console.log("[v0] [Server Action] Plugin endpoint failed, trying standard API")
@@ -446,18 +436,32 @@ export async function fetchAllWordPressSlugs() {
 
   if (!baseUrl) {
     console.log("[v0] [Server Action] No API URL, returning fallback slugs")
-    return ["unser-projekt", "kontakt"]
+    return ["unser-projekt", "unsere-genossenschaft", "unsere-mitgliedschaft", "unsere-dokumente-und-links"]
   }
 
   try {
     const pages = await fetchWordPressPages()
-    const slugs = pages.filter((page: any) => page.slug && page.slug !== "home").map((page: any) => page.slug)
+    console.log("[v0] [Server Action] Raw pages data:", JSON.stringify(pages.slice(0, 2)))
 
-    console.log("[v0] [Server Action] Found slugs for static generation:", slugs)
+    const slugs = pages
+      .filter((page: any) => {
+        const hasSlug = page.slug && page.slug !== "home" && page.slug !== "privacy-policy"
+        console.log(`[v0] [Server Action] Page "${page.title}" - slug: "${page.slug}" - included: ${hasSlug}`)
+        return hasSlug
+      })
+      .map((page: any) => page.slug)
+
+    console.log("[v0] [Server Action] Final slugs for static generation:", slugs)
+
+    if (slugs.length === 0) {
+      console.log("[v0] [Server Action] No slugs found, using fallback")
+      return ["unser-projekt", "unsere-genossenschaft", "unsere-mitgliedschaft", "unsere-dokumente-und-links"]
+    }
+
     return slugs
   } catch (error) {
     console.log("[v0] [Server Action] Error fetching slugs:", error)
-    return ["unser-projekt", "kontakt"]
+    return ["unser-projekt", "unsere-genossenschaft", "unsere-mitgliedschaft", "unsere-dokumente-und-links"]
   }
 }
 
