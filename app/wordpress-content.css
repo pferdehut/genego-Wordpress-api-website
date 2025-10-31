@@ -23,15 +23,17 @@
 }
 
 .wordpress-content h3 {
-  font-size: 1.75rem;
+  font-size: 1.5rem;
 }
 
 .wordpress-content h4 {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
+  margin: 0;
 }
 
 .wordpress-content h5 {
   font-size: 1.25rem;
+  font-weight: normal;
 }
 
 .wordpress-content h6 {
@@ -89,11 +91,12 @@
 
 .wordpress-content blockquote {
   /* Using CSS variables for border and text colors */
-  border-left: 4px solid var(--color-border);
-  padding-left: 1.5rem;
-  margin: 1.5rem 0;
-  font-style: italic;
+  border: 2px solid var(--color-primary) !important;
+  border-radius: 100px !important;
+  margin: 0 !important;
+  padding: 0.75rem 1.5rem !important;
   color: var(--color-muted-foreground);
+  text-align: center !important;
 }
 
 .wordpress-content hr {
@@ -128,7 +131,8 @@
 }
 
 .wordpress-content table {
-  width: 100%;
+  width: auto !important;
+  max-width: 100%;
   border-collapse: collapse;
   margin: 1.5rem 0;
 }
@@ -136,7 +140,8 @@
 .wordpress-content table th,
 .wordpress-content table td {
   /* Using CSS variable for border */
-  border: 1px solid var(--color-border);
+  border: none;
+  border-bottom: 1px solid var(--color-border);
   padding: 0.75rem;
   text-align: left;
 }
@@ -188,8 +193,8 @@
 
 .alignwide {
   max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
+  /*margin-left: auto;
+  margin-right: auto;*/
 }
 
 .alignfull {
