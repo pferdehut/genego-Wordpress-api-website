@@ -96,10 +96,6 @@ export default async function DynamicPage({ params }: { params: { slug: string }
         </div>
       </section>
 
-      <div className="bg-white">
-        <WavyLine className="text-primary/20" />
-      </div>
-
       <div className="container mx-auto px-4 py-16">
         <NextPageButton currentSlug={params.slug} />
       </div>

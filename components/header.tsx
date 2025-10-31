@@ -35,7 +35,7 @@ export function Header() {
           {/* Mobile Menu */}
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden">
+              <Button variant="ghost" size="icon-2" className="md:hidden">
                 <svg
                   width="64"
                   height="64"
