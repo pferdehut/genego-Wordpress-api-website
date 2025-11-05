@@ -4,13 +4,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@font-face {
-  font-family: "Gioco";
-  src: url("https://media.genego.ch/gioco-web/Gioco-Regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-}
-
 :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -87,9 +80,9 @@
 }
 
 @theme inline {
-  --font-sans: "Poppins", "Inter Fallback";
-  --font-serif: "Poppins", "Playfair Display Fallback";
-  --font-heading: "Gioco", system-ui, sans-serif;
+  --font-sans: "Inter", "Inter Fallback";
+  --font-serif: "Playfair Display", "Playfair Display Fallback";
+
   /* Force white background and updated color system */
   --color-primary: #1127cf;
   --color-primary-foreground: #ffffff;
@@ -154,7 +147,7 @@
 
 @layer base {
   * {
-    @apply outline-ring/50;
+    @apply border-border outline-ring/50;
   }
   body {
     @apply bg-white text-foreground;

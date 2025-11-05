@@ -30,12 +30,6 @@ interface WordPressPost {
   }
 }
 
-interface WordPressMenuItem {
-  id: number
-  title: { rendered: string }
-  url: string
-}
-
 function getWordPressBaseUrl(): string | null {
   const baseUrl = process.env.WORDPRESS_API_URL
 
@@ -69,6 +63,9 @@ export async function fetchWordPressHome() {
     if (response.ok) {
       const data = await response.json()
       console.log("[v0] [Server Action] Successfully fetched from plugin endpoint")
+      if (data.content) {
+        data.content = transformImageUrls(data.content, baseUrl)
+      }
       return data
     }
   } catch (error) {
@@ -90,6 +87,8 @@ export async function fetchWordPressHome() {
         const page = pages[0]
         console.log("[v0] [Server Action] Successfully fetched from standard API")
 
+        const content = transformImageUrls(page.content.rendered, baseUrl)
+
         return {
           heroSlides: [
             {
@@ -98,7 +97,7 @@ export async function fetchWordPressHome() {
               subtitle: "Genossenschaft Neumühle Goldach",
             },
           ],
-          content: page.content.rendered, // Keep full HTML
+          content: content,
         }
       }
     }
@@ -135,6 +134,9 @@ export async function fetchWordPressPage(slug: string) {
     if (response.ok) {
       const data = await response.json()
       console.log("[v0] [Server Action] Successfully fetched from plugin endpoint")
+      if (data.content) {
+        data.content = transformImageUrls(data.content, baseUrl)
+      }
       return data
     }
   } catch (error) {
@@ -156,9 +158,11 @@ export async function fetchWordPressPage(slug: string) {
         const page = pages[0]
         console.log("[v0] [Server Action] Successfully fetched from standard API")
 
+        const content = transformImageUrls(page.content.rendered, baseUrl)
+
         return {
           title: page.title.rendered,
-          content: page.content.rendered,
+          content: content,
         }
       }
     }
@@ -195,11 +199,6 @@ export async function fetchWordPressPages() {
     if (response.ok) {
       const pages = await response.json()
       console.log("[v0] [Server Action] Successfully fetched from plugin endpoint")
-      console.log("[v0] [Server Action] Sample page with parent field:", JSON.stringify(pages[0]))
-      console.log(
-        "[v0] [Server Action] All pages with parent:",
-        JSON.stringify(pages.map((p: any) => ({ id: p.id, title: p.title, parent: p.parent }))),
-      )
       return pages
     }
   } catch (error) {
@@ -218,18 +217,15 @@ export async function fetchWordPressPages() {
     if (response.ok) {
       const pages = await response.json()
       console.log("[v0] [Server Action] Successfully fetched from standard API")
-      console.log("[v0] [Server Action] Raw WordPress pages sample:", pages.slice(0, 2))
 
-      const transformedPages = pages.map((page: WordPressPage) => ({
+      // Transform to our format
+      return pages.map((page: WordPressPage) => ({
         id: page.id,
         title: page.title.rendered,
-        slug: page.id.toString(),
+        slug: page.id.toString(), // WordPress doesn't expose slug in REST API by default
         url: `/${page.id}`,
-        parent: (page as any).parent || 0, // Use actual parent value from WordPress
+        parent: 0,
       }))
-
-      console.log("[v0] [Server Action] Transformed pages sample:", transformedPages.slice(0, 2))
-      return transformedPages
     }
   } catch (error) {
     console.log(
@@ -293,17 +289,21 @@ export async function fetchWordPressPostsByCategory(categorySlug: string) {
     console.log("[v0] [Server Action] Successfully fetched", posts.length, "posts")
 
     // Transform to our format
-    return posts.map((post: WordPressPost) => ({
-      id: post.id,
-      title: post.title.rendered,
-      excerpt: post.excerpt.rendered,
-      content: post.content.rendered,
-      date: post.date,
-      slug: post.slug,
-      link: post.link,
-      featuredImage: post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || null,
-      featuredImageAlt: post._embedded?.["wp:featuredmedia"]?.[0]?.alt_text || "",
-    }))
+    return posts.map((post: WordPressPost) => {
+      const content = transformImageUrls(post.content.rendered, baseUrl)
+
+      return {
+        id: post.id,
+        title: post.title.rendered,
+        excerpt: post.excerpt.rendered,
+        content: content,
+        date: post.date,
+        slug: post.slug,
+        link: post.link,
+        featuredImage: post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || null,
+        featuredImageAlt: post._embedded?.["wp:featuredmedia"]?.[0]?.alt_text || "",
+      }
+    })
   } catch (error) {
     console.log("[v0] [Server Action] Error fetching posts:", error instanceof Error ? error.message : "Unknown error")
     return []
@@ -374,97 +374,6 @@ export async function fetchWordPressPost(slug: string) {
   return getFallbackPost(slug)
 }
 
-export async function fetchWordPressMenu(menuSlug: string) {
-  console.log("[v0] [Server Action] Fetching WordPress menu:", menuSlug)
-
-  const baseUrl = getWordPressBaseUrl()
-
-  if (!baseUrl) {
-    console.log("[v0] [Server Action] No API URL configured, returning empty menu")
-    return []
-  }
-
-  // Try plugin endpoint first
-  try {
-    const pluginUrl = `${baseUrl}/wp-json/genego/v1/menus/${menuSlug}`
-    console.log("[v0] [Server Action] Trying plugin menu endpoint:", pluginUrl)
-
-    const response = await fetch(pluginUrl, {
-      next: { revalidate: 300 },
-    })
-
-    if (response.ok) {
-      const data = await response.json()
-      console.log("[v0] [Server Action] Menu API response:", JSON.stringify(data))
-
-      if (data.items && Array.isArray(data.items)) {
-        console.log("[v0] [Server Action] Successfully fetched menu from plugin endpoint:", data.items.length, "items")
-        return data.items
-      } else if (Array.isArray(data)) {
-        // Fallback for old response format
-        console.log("[v0] [Server Action] Successfully fetched menu (legacy format):", data.length, "items")
-        return data
-      }
-    } else {
-      const errorData = await response.json().catch(() => null)
-      if (
-        errorData?.code === "no_menu" ||
-        errorData?.code === "no_menus_exist" ||
-        errorData?.code === "menu_not_found"
-      ) {
-        console.log(
-          `[v0] [Server Action] WordPress menu "${menuSlug}" not found - this is expected if you haven't created the menu yet. Using fallback navigation.`,
-        )
-      } else {
-        console.log("[v0] [Server Action] Menu endpoint returned status:", response.status)
-      }
-    }
-  } catch (error) {
-    console.log("[v0] [Server Action] Could not connect to WordPress menu endpoint. Using fallback navigation.")
-  }
-
-  console.log(
-    `[v0] [Server Action] No WordPress menu found for "${menuSlug}". Components will use their default navigation.`,
-  )
-  return []
-}
-
-export async function fetchAllWordPressSlugs() {
-  console.log("[v0] [Server Action] Fetching all WordPress page slugs for static generation")
-
-  const baseUrl = getWordPressBaseUrl()
-
-  if (!baseUrl) {
-    console.log("[v0] [Server Action] No API URL, returning fallback slugs")
-    return ["unser-projekt", "unsere-genossenschaft", "unsere-mitgliedschaft", "unsere-dokumente-und-links"]
-  }
-
-  try {
-    const pages = await fetchWordPressPages()
-    console.log("[v0] [Server Action] Raw pages data:", JSON.stringify(pages.slice(0, 2)))
-
-    const slugs = pages
-      .filter((page: any) => {
-        const hasSlug = page.slug && page.slug !== "home" && page.slug !== "privacy-policy"
-        console.log(`[v0] [Server Action] Page "${page.title}" - slug: "${page.slug}" - included: ${hasSlug}`)
-        return hasSlug
-      })
-      .map((page: any) => page.slug)
-
-    console.log("[v0] [Server Action] Final slugs for static generation:", slugs)
-
-    if (slugs.length === 0) {
-      console.log("[v0] [Server Action] No slugs found, using fallback")
-      return ["unser-projekt", "unsere-genossenschaft", "unsere-mitgliedschaft", "unsere-dokumente-und-links"]
-    }
-
-    return slugs
-  } catch (error) {
-    console.log("[v0] [Server Action] Error fetching slugs:", error)
-    return ["unser-projekt", "unsere-genossenschaft", "unsere-mitgliedschaft", "unsere-dokumente-und-links"]
-  }
-}
-
 function getFallbackHomeData() {
   return {
     heroSlides: [
@@ -533,4 +442,36 @@ function getFallbackPost(slug: string) {
     featuredImage: null,
     featuredImageAlt: "",
   }
+}
+
+// Helper function to transform relative image URLs to absolute
+function transformImageUrls(html: string, baseUrl: string): string {
+  if (!html || !baseUrl) return html
+
+  // Remove trailing slash from baseUrl
+  const cleanBaseUrl = baseUrl.replace(/\/+$/, "")
+
+  // Transform relative image URLs to absolute
+  // Match src="/wp-content/..." or src="wp-content/..."
+  html = html.replace(/src=["'](?!https?:\/\/)([^"']+)["']/gi, (match, url) => {
+    // If URL starts with /, it's relative to domain root
+    if (url.startsWith("/")) {
+      return `src="${cleanBaseUrl}${url}"`
+    }
+    // If URL doesn't start with http or /, prepend base URL with /
+    return `src="${cleanBaseUrl}/${url}"`
+  })
+
+  // Also handle srcset for responsive images
+  html = html.replace(/srcset=["']([^"']+)["']/gi, (match, srcset) => {
+    const transformedSrcset = srcset.replace(/(?!https?:\/\/)([^\s,]+)/g, (url: string) => {
+      if (url.startsWith("http")) return url
+      if (url.startsWith("/")) return `${cleanBaseUrl}${url}`
+      return `${cleanBaseUrl}/${url}`
+    })
+    return `srcset="${transformedSrcset}"`
+  })
+
+  console.log("[v0] [Server Action] Transformed image URLs in content")
+  return html
 }

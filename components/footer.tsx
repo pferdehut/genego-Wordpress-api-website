@@ -1,5 +1,3 @@
-"use client"
-
 import Link from "next/link"
 
 export function Footer() {
@@ -39,6 +37,9 @@ export function Footer() {
                 className="text-sm text-white/90 hover:text-white transition-colors"
               >
                 kontakt@genego.ch
+              </Link>
+              <Link href="/cookies" className="text-sm text-white/90 hover:text-white transition-colors">
+                Cookies
               </Link>
             </div>
           </div>

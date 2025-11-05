@@ -27,8 +27,8 @@ const FALLBACK_PAGES: Record<string, WordPressPost> = {
   },
 }
 
-export async function GET(request: Request, { params }: { params: { slug: string } }) {
-  const { slug } = params
+export async function GET(request: Request, { params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
 
   console.log("[v0] Fetching page with slug:", slug)
   console.log("[v0] WordPress API URL:", WORDPRESS_API_URL ? "Set" : "Not set")
@@ -38,12 +38,7 @@ export async function GET(request: Request, { params }: { params: { slug: string
     console.log("[v0] Using fallback data for slug:", slug)
     const fallbackPage = FALLBACK_PAGES[slug]
     if (fallbackPage) {
-      return NextResponse.json({
-        id: fallbackPage.id,
-        title: fallbackPage.title.rendered,
-        content: fallbackPage.content.rendered,
-        excerpt: fallbackPage.excerpt.rendered,
-      })
+      return NextResponse.json(fallbackPage)
     }
     return NextResponse.json({ error: "Page not found" }, { status: 404 })
   }
@@ -74,24 +69,13 @@ export async function GET(request: Request, { params }: { params: { slug: string
       const fallbackPage = FALLBACK_PAGES[slug]
       if (fallbackPage) {
         console.log("[v0] Using fallback data instead")
-        return NextResponse.json({
-          id: fallbackPage.id,
-          title: fallbackPage.title.rendered,
-          content: fallbackPage.content.rendered,
-          excerpt: fallbackPage.excerpt.rendered,
-        })
+        return NextResponse.json(fallbackPage)
       }
       return NextResponse.json({ error: "Page not found" }, { status: 404 })
     }
 
     console.log("[v0] Successfully fetched WordPress page:", slug)
-    const page = pages[0]
-    return NextResponse.json({
-      id: page.id,
-      title: page.title.rendered,
-      content: page.content.rendered,
-      excerpt: page.excerpt.rendered,
-    })
+    return NextResponse.json(pages[0])
   } catch (error) {
     console.error(`[v0] Error fetching WordPress page ${slug}:`, error)
     console.error("[v0] Error details:", error instanceof Error ? error.message : String(error))
@@ -100,12 +84,7 @@ export async function GET(request: Request, { params }: { params: { slug: string
     const fallbackPage = FALLBACK_PAGES[slug]
     if (fallbackPage) {
       console.log("[v0] Returning fallback data due to error")
-      return NextResponse.json({
-        id: fallbackPage.id,
-        title: fallbackPage.title.rendered,
-        content: fallbackPage.content.rendered,
-        excerpt: fallbackPage.excerpt.rendered,
-      })
+      return NextResponse.json(fallbackPage)
     }
 
     return NextResponse.json({ error: "Failed to fetch page" }, { status: 500 })

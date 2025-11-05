@@ -4,13 +4,7 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { fetchWordPressPages } from "@/lib/wordpress-actions"
-import { WavyLine } from "@/components/wavy-line"
-
-const ArrowRight = ({ className }: { className?: string }) => (
-  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-  </svg>
-)
+import { ArrowRight } from "lucide-react"
 
 interface NextPageButtonProps {
   currentSlug: string
@@ -53,10 +47,9 @@ export function NextPageButton({ currentSlug }: NextPageButtonProps) {
   }
 
   return (
-    <div className="mt-16 pt-8 flex flex-wrap justify-center-safe">
-      <WavyLine className="text-border w-full mb-8" />
+    <div className="mt-16 pt-8 border-t">
       <Link href={nextPage.url}>
-        <Button size="lg" className="group wp-block-file__button rounded-[100px]">
+        <Button size="lg" className="group rounded-full">
           Erfahre mehr über {nextPage.title}
           <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
         </Button>

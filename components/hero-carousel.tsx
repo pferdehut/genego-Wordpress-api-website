@@ -1,19 +1,8 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
-
-const ChevronLeft = ({ className }: { className?: string }) => (
-  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-  </svg>
-)
-
-const ChevronRight = ({ className }: { className?: string }) => (
-  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-  </svg>
-)
 
 interface HeroSlide {
   id: number
@@ -35,7 +24,7 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
   }, [slides])
 
   useEffect(() => {
-    if (slides.length <= 0) {
+    if (slides.length <= 1) {
       console.log("[v0] Only 1 slide, skipping auto-advance")
       return
     }
@@ -100,7 +89,7 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
       <div className="absolute inset-0 flex items-end z-10">
         <div className="w-full bg-primary py-12 md:py-16">
           <div className="container mx-auto px-4">
-            <h1 className="font-heading text-4xl md:text-6xl font-bold text-primary-foreground mb-4 text-balance">
+            <h1 className="text-4xl md:text-6xl font-bold text-primary-foreground mb-4 text-balance">
               {slides[currentSlide]?.title}
             </h1>
             <p className="text-lg md:text-xl text-primary-foreground/90 max-w-4xl text-pretty">

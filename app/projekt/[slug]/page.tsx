@@ -1,18 +1,38 @@
-import { fetchWordPressPost, fetchAllWordPressSlugs } from "@/lib/wordpress-actions"
+"use client"
+
+import { useEffect, useState } from "react"
+import { useParams } from "next/navigation"
 import Link from "next/link"
+import { fetchWordPressPost } from "@/lib/wordpress-actions"
 import { Button } from "@/components/ui/button"
-import { notFound } from "next/navigation"
 
-export async function generateStaticParams() {
-  const slugs = await fetchAllWordPressSlugs()
-  return slugs.map((slug) => ({ slug }))
-}
+export default function BlogPostPage() {
+  const params = useParams()
+  const slug = params.slug as string
+  const [post, setPost] = useState<Awaited<ReturnType<typeof fetchWordPressPost>> | null>(null)
+  const [loading, setLoading] = useState(true)
 
-export default async function BlogPostPage({ params }: { params: { slug: string } }) {
-  const post = await fetchWordPressPost(params.slug)
+  useEffect(() => {
+    fetchWordPressPost(slug)
+      .then((result) => {
+        setPost(result)
+        setLoading(false)
+      })
+      .catch((error) => {
+        console.error("[v0] Error loading blog post:", error)
+        setLoading(false)
+      })
+  }, [slug])
 
-  if (!post) {
-    notFound()
+  if (loading || !post) {
+    return (
+      <main className="pt-24 pb-16">
+        <div className="container mx-auto px-4 max-w-4xl text-center">
+          <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent mb-4" />
+          <p className="text-muted-foreground">Beitrag wird geladen...</p>
+        </div>
+      </main>
+    )
   }
 
   return (
@@ -36,7 +56,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                 day: "numeric",
               })}
             </time>
-            <h1 className="font-heading text-4xl md:text-5xl font-bold mb-6 text-balance">{post.title}</h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 text-balance">{post.title}</h1>
           </header>
 
           {post.featuredImage && (
@@ -49,10 +69,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
             </div>
           )}
 
-          <div
-            className="wordpress-content prose prose-lg max-w-none"
-            dangerouslySetInnerHTML={{ __html: post.content }}
-          />
+          <div className="prose prose-lg max-w-none" dangerouslySetInnerHTML={{ __html: post.content }} />
         </article>
       </div>
     </main>

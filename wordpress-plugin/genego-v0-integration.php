@@ -3,7 +3,7 @@
  * Plugin Name: GeNeGo v0 Integration
  * Plugin URI: https://wordpress.genego.ch
  * Description: Provides REST API endpoints with CORS support for v0 integration
- * Version: 1.3.0
+ * Version: 1.0.0
  * Author: GeNeGo
  * License: GPL v2 or later
  */
@@ -27,10 +27,6 @@ class GeNeGo_V0_Integration {
         
         // Register custom REST API endpoints
         add_action('rest_api_init', [$this, 'register_endpoints']);
-        
-        add_filter('rest_menu_read_access', '__return_true');
-        add_filter('rest_menu_item_read_access', '__return_true');
-        add_filter('rest_menu_location_read_access', '__return_true');
     }
     
     /**
@@ -86,97 +82,6 @@ class GeNeGo_V0_Integration {
             'callback' => [$this, 'get_page_by_slug'],
             'permission_callback' => '__return_true',
         ]);
-        
-        register_rest_route('genego/v1', '/menus/(?P<slug>[a-zA-Z0-9-_]+)', [
-            'methods' => 'GET',
-            'callback' => [$this, 'get_menu_by_slug'],
-            'permission_callback' => '__return_true',
-            'args' => [
-                'slug' => [
-                    'required' => true,
-                    'type' => 'string',
-                ],
-            ],
-        ]);
-    }
-    
-    /**
-     * Get menu by slug
-     * Fetches WordPress menu items by menu slug (e.g., "footer", "main")
-     */
-    public function get_menu_by_slug($request) {
-        $slug = $request['slug'];
-        
-        // Get all menus
-        $menus = wp_get_nav_menus();
-        $menu = null;
-        
-        $available_menus = [];
-        foreach ($menus as $menu_obj) {
-            $available_menus[] = $menu_obj->slug . ' (' . $menu_obj->name . ')';
-        }
-        
-        // Try to find menu by slug or name (case-insensitive)
-        foreach ($menus as $menu_obj) {
-            if (strtolower($menu_obj->slug) === strtolower($slug) || 
-                strtolower($menu_obj->name) === strtolower($slug)) {
-                $menu = $menu_obj;
-                break;
-            }
-        }
-        
-        // Also check menu locations
-        if (!$menu) {
-            $locations = get_nav_menu_locations();
-            if (isset($locations[$slug])) {
-                $menu = wp_get_nav_menu_object($locations[$slug]);
-            }
-        }
-        
-        if (!$menu) {
-            if (empty($menus)) {
-                return new WP_Error(
-                    'no_menus_exist', 
-                    'No menus have been created yet in WordPress. To create a menu: Go to Appearance > Menus in your WordPress admin, create a new menu named "' . ucfirst($slug) . '", add menu items, and save.',
-                    ['status' => 404]
-                );
-            } else {
-                return new WP_Error(
-                    'menu_not_found', 
-                    'Menu "' . $slug . '" not found. Available menus: ' . implode(', ', $available_menus) . '. To create the "' . ucfirst($slug) . '" menu: Go to Appearance > Menus in WordPress admin.',
-                    ['status' => 404]
-                );
-            }
-        }
-        
-        // Get menu items
-        $menu_items = wp_get_nav_menu_items($menu->term_id);
-        
-        if (!$menu_items) {
-            return [
-                'name' => $menu->name,
-                'slug' => $menu->slug,
-                'items' => [],
-            ];
-        }
-        
-        // Transform menu items to simple format
-        $result = [];
-        foreach ($menu_items as $item) {
-            $result[] = [
-                'id' => $item->ID,
-                'title' => $item->title,
-                'url' => $item->url,
-                'parent' => $item->menu_item_parent,
-                'order' => $item->menu_order,
-            ];
-        }
-        
-        return [
-            'name' => $menu->name,
-            'slug' => $menu->slug,
-            'items' => $result,
-        ];
     }
     
     /**
@@ -246,30 +151,18 @@ class GeNeGo_V0_Integration {
         }
         
         $content = apply_filters('the_content', $page->post_content);
-        
-        // Strip CSS classes from HTML tags while keeping the tags themselves
-        $content = $this->strip_css_classes($content);
+        $paragraphs = $this->extract_paragraphs($content);
         
         return [
             'id' => $page->ID,
             'title' => $page->post_title,
             'slug' => $page->post_name,
-            'content' => $content,
+            'content' => [
+                'title' => $page->post_title,
+                'paragraphs' => $paragraphs,
+            ],
             'featuredImage' => get_the_post_thumbnail_url($page->ID, 'large'),
         ];
-    }
-    
-    /**
-     * Strip CSS classes from HTML content while keeping tags
-     */
-    private function strip_css_classes($content) {
-        // Remove class attributes from all HTML tags
-        $content = preg_replace('/\s*class\s*=\s*["\'][^"\']*["\']/i', '', $content);
-        
-        // Also remove any standalone class attributes without quotes (edge case)
-        $content = preg_replace('/\s*class\s*=\s*\S+/i', '', $content);
-        
-        return $content;
     }
     
     /**

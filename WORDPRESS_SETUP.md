@@ -14,25 +14,7 @@ The site works out of the box with fallback content. You can view and test the s
 2. Ensure WordPress REST API is enabled (it's enabled by default in WordPress 4.7+)
 3. Your WordPress REST API will be available at: `https://your-site.com/wp-json/wp/v2`
 
-### Step 2: Install the GeNeGo v0 Integration Plugin
-
-**This plugin is REQUIRED for menu support and improved CORS handling.**
-
-1. Download the plugin file from `wordpress-plugin/genego-v0-integration.php`
-2. Upload it to your WordPress site:
-   - Go to WordPress Admin → Plugins → Add New → Upload Plugin
-   - Choose the `genego-v0-integration.php` file
-   - Click "Install Now"
-3. Activate the plugin
-4. **Important:** After activating, go to Settings → Permalinks and click "Save Changes" to flush the rewrite rules
-
-The plugin provides:
-- Custom REST API endpoints with better performance
-- CORS support for v0 and Vercel preview URLs
-- Menu endpoints for Footer and Main navigation
-- Optimized data structure for the frontend
-
-### Step 3: Configure Environment Variable
+### Step 2: Configure Environment Variable
 
 Add the following environment variable to your project:
 
@@ -58,19 +40,7 @@ Create a `.env.local` file in the root directory:
 WORDPRESS_API_URL=https://your-wordpress-site.com
 \`\`\`
 
-### Step 4: Create Menus in WordPress
-
-The application uses WordPress menus for navigation:
-
-1. Go to WordPress Admin → Appearance → Menus
-2. Create a menu called "Footer" (case-insensitive)
-3. Create a menu called "Main" (case-insensitive) if needed
-4. Add menu items (pages, custom links, etc.)
-5. Save the menus
-
-The footer will automatically display items from the "Footer" menu.
-
-### Step 5: Create Content in WordPress
+### Step 3: Create Content in WordPress
 
 Create the following pages in WordPress with these slugs:
 
@@ -80,7 +50,7 @@ Create the following pages in WordPress with these slugs:
 
 The system will automatically fetch all published pages and display them in the navigation menu.
 
-### Step 6: Optional - Advanced Custom Fields
+### Step 4: Optional - Advanced Custom Fields
 
 For more complex content structures, install the Advanced Custom Fields (ACF) plugin:
 
@@ -100,56 +70,34 @@ For more complex content structures, install the Advanced Custom Fields (ACF) pl
 
 ## API Endpoints Used
 
-### Plugin Endpoints (Recommended)
-- `GET /wp-json/genego/v1/home` - Fetch home page data
-- `GET /wp-json/genego/v1/pages` - Fetch all pages
-- `GET /wp-json/genego/v1/pages/{slug}` - Fetch page by slug
-- `GET /wp-json/genego/v1/menus/{slug}` - Fetch menu by slug (e.g., "footer", "main")
-
-### Standard WordPress Endpoints (Fallback)
 - `GET /wp-json/wp/v2/pages` - Fetch all pages
 - `GET /wp-json/wp/v2/pages?slug={slug}` - Fetch page by slug
 - `GET /wp-json/wp/v2/posts` - Fetch all posts
 - `GET /wp-json/wp/v2/media/{id}` - Fetch media by ID
 
-## Troubleshooting
+## CORS Configuration
 
-### Menu Not Loading (404 Error)
+If you encounter CORS issues when testing locally, add this to your WordPress `functions.php`:
 
-If you get a 404 error when fetching menus:
-
-1. **Verify the plugin is installed and activated**
-   - Go to WordPress Admin → Plugins
-   - Look for "GeNeGo v0 Integration"
-   - Make sure it's activated
-
-2. **Flush permalinks**
-   - Go to Settings → Permalinks
-   - Click "Save Changes" (you don't need to change anything)
-   - This refreshes WordPress's URL rewrite rules
-
-3. **Check menu names**
-   - Go to Appearance → Menus
-   - Verify you have a menu named "Footer" or "Main"
-   - Menu names are case-insensitive
-
-4. **Test the endpoint directly**
-   - Visit: `https://your-site.com/wp-json/genego/v1/menus/footer`
-   - You should see JSON data with menu items
-   - If you get a 404, the plugin isn't properly registered
-
-5. **Re-upload the plugin**
-   - If the above steps don't work, deactivate and delete the plugin
-   - Re-upload the latest version from `wordpress-plugin/genego-v0-integration.php`
-   - Activate it again
-
-### Other Common Issues
-
-1. **"fetch failed" error**: Check that your WordPress site is accessible and the REST API is enabled
-2. **No content showing**: Verify the WORDPRESS_API_URL is set correctly in the Vars section
-3. **CORS errors**: The plugin handles CORS automatically, but if you still have issues, check your server configuration
-4. **404 errors for pages**: Ensure you've created pages in WordPress with the correct slugs
+\`\`\`php
+add_action('rest_api_init', function() {
+    remove_filter('rest_pre_serve_request', 'rest_send_cors_headers');
+    add_filter('rest_pre_serve_request', function($value) {
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+        header('Access-Control-Allow-Credentials: true');
+        return $value;
+    });
+}, 15);
+\`\`\`
 
 ## Testing the Connection
 
 Visit `/wordpress-test` in your app to test the WordPress connection and see detailed diagnostic information. This page will help you troubleshoot any connection issues.
+
+## Troubleshooting
+
+1. **"fetch failed" error**: Check that your WordPress site is accessible and the REST API is enabled
+2. **No content showing**: Verify the WORDPRESS_API_URL is set correctly in the Vars section
+3. **CORS errors**: Add the CORS configuration to your WordPress site (see above)
+4. **404 errors**: Ensure you've created pages in WordPress with the correct slugs
