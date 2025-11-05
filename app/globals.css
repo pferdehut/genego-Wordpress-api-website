@@ -11,14 +11,12 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  /* Updated primary color to RGB(17, 39, 207) = #1127CF */
   --primary: oklch(0.35 0.25 264);
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
-  /* Updated accent color to RGB(40, 204, 204) = #28CCCC */
   --accent: oklch(0.75 0.15 195);
   --accent-foreground: oklch(0.145 0 0);
   --destructive: oklch(0.577 0.245 27.325);
@@ -34,10 +32,8 @@
   --radius: 0.625rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
-  /* Updated sidebar primary to match new primary color */
   --sidebar-primary: oklch(0.35 0.25 264);
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  /* Updated sidebar accent to match new accent color */
   --sidebar-accent: oklch(0.75 0.15 195);
   --sidebar-accent-foreground: oklch(0.145 0 0);
   --sidebar-border: oklch(0.922 0 0);
@@ -82,29 +78,20 @@
 @theme inline {
   --font-sans: "Inter", "Inter Fallback";
   --font-serif: "Playfair Display", "Playfair Display Fallback";
-
-  /* Force white background and updated color system */
   --color-primary: #1127cf;
   --color-primary-foreground: #ffffff;
-
   --color-background: #ffffff;
   --color-foreground: #0a0a0a;
-
   --color-muted: #f5f5f5;
   --color-muted-foreground: #525252;
-
   --color-accent: #28cccc;
   --color-accent-foreground: #0a0a0a;
-
   --color-card: #ffffff;
   --color-card-foreground: #0a0a0a;
-
   --color-border: #e5e5e5;
   --color-input: #e5e5e5;
   --color-ring: #1127cf;
-
   --radius: 100px;
-
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -143,13 +130,11 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
-/* Removed dark mode media query to keep background white */
-
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-white text-foreground;
+    @apply bg-background text-foreground;
   }
 }
