@@ -23,7 +23,7 @@ export default function RootLayout({
     <html lang="de">
       <body className={inter.className}>
         <Header />
-        <main className="pt-16">{children}</main>
+        <main className="pt-16 break-normal hyphens-auto">{children}</main>
         <Footer />
       </body>
     </html>
