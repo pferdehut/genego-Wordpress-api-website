@@ -28,9 +28,13 @@ export function NextPageButton({ currentSlug }: NextPageButtonProps) {
         })
 
         // Get next page if not the last one
-        if (currentIndex !== -1 && currentIndex < pages.length - 1) {
+        if (currentIndex !== -1 && currentIndex < pages.length - 2) {
           const next = pages[currentIndex + 1]
-          setNextPage({ title: next.title, url: next.url })
+          const nextTitle = next.title
+          const capFirstLetter = nextTitle[0].toLowerCase();
+          const restOfNext = nextTitle.slice(1);
+          const newNext = capFirstLetter + restOfNext;
+          setNextPage({ title: newNext, url: next.url })
         }
       } catch (error) {
         console.error("[v0] Failed to load next page:", error)

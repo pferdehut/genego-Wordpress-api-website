@@ -166,4 +166,9 @@
   p {
     margin-bottom: 1.5rem;
   }
+
+  button svg{
+    width: 24px !important;
+    height: auto !important;
+  }
 }

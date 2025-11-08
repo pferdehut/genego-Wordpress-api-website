@@ -55,10 +55,10 @@ export function Header() {
           {/* Mobile Menu */}
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden">
+              <Button variant="ghost" className="md:hidden w-14 h-14">
                 <svg
-                  width="64"
-                  height="64"
+                  width="12"
+                  height="12"
                   viewBox="0 0 64 64"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -91,7 +91,7 @@ export function Header() {
                 {isLoading ? (
                   <div className="text-sm text-muted-foreground">Laden...</div>
                 ) : (
-                  menuItems.map((item) => (
+                  menuItems.slice(0, -1).map((item) => (
                     <Link
                       key={item.id}
                       href={item.url}
@@ -111,7 +111,7 @@ export function Header() {
             {isLoading ? (
               <div className="text-sm text-muted-foreground">Laden...</div>
             ) : (
-              menuItems.map((item, index) => (
+              menuItems.slice(0, -1).map((item, index) => (
                 <div key={item.id} className="flex items-center gap-3">
                   <Link href={item.url} className="text-sm hover:text-primary transition-colors">
                     {item.title}
