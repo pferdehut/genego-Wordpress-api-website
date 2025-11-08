@@ -38,8 +38,8 @@ export function Footer() {
               >
                 kontakt@genego.ch
               </Link>
-              <Link href="/cookies" className="text-sm text-white/90 hover:text-white transition-colors">
-                Cookies
+              <Link href="/datenschutzerklaerung" className="text-sm text-white/90 hover:text-white transition-colors">
+                Datenschutzerklärung
               </Link>
             </div>
           </div>
