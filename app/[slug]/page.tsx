@@ -53,7 +53,7 @@ export default async function DynamicPage({ params }: { params: Promise<{ slug: 
                   return (
                     <div key={post.id} className="relative">
                       {/* Timeline dot */}
-                      <div className="absolute -left-8 top-0 w-4 h-4 rounded-full bg-primary border-4 border-background" />
+                      <div className="absolute -left-9 top-0 w-5 h-5 rounded-full bg-primary border-5 border-background" />
 
                       {/* Month/Year label */}
                       <div className="mb-4">

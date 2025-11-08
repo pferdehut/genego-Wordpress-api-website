@@ -104,8 +104,8 @@
 
 .wp-block-table td,
 .wp-block-table th {
-  border: 1px solid #ddd;
-  padding: 0.75rem;
+  border: none;
+  padding: 0.25rem;
 }
 
 .wp-block-table th {
@@ -396,4 +396,76 @@
   color: #666;
   margin-top: 0.5rem;
   text-align: center;
+}
+
+/* Custom list styling with circle icons with blue ring and no fill */
+.wordpress-content ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 1.5rem 0;
+}
+
+.wordpress-content ul li {
+  position: relative;
+  padding-left: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.wordpress-content ul li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.45em;
+  width: 0.875rem;
+  height: 0.875rem;
+  border: 2px solid oklch(0.35 0.25 264); /* Blue ring using primary color */
+  border-radius: 50%;
+  background: transparent;
+}
+
+/* Nested lists */
+.wordpress-content ul ul {
+  margin: 0.5rem 0 0.5rem 0;
+  padding-left: 0;
+}
+
+.wordpress-content ul ul li {
+  padding-left: 2rem;
+}
+
+/* Ordered lists keep default numbering */
+.wordpress-content ol {
+  list-style: decimal;
+  padding-left: 2rem;
+  margin: 1.5rem 0;
+}
+
+.wordpress-content ol li {
+  margin-bottom: 0.75rem;
+  padding-left: 0.5rem;
+}
+
+/* WordPress block list styles */
+.wordpress-content .wp-block-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 1.5rem 0;
+}
+
+.wordpress-content .wp-block-list li {
+  position: relative;
+  padding-left: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.wordpress-content .wp-block-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.45em;
+  width: 0.75rem;
+  height: 0.75rem;
+  border: 2px solid oklch(0.35 0.25 264);
+  border-radius: 50%;
+  background: transparent;
 }

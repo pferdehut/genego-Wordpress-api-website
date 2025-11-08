@@ -43,7 +43,7 @@ The `.htaccess` file might be missing or incorrect.
 
 **Create/Update .htaccess** in your WordPress root directory:
 
-```apache
+\`\`\`apache
 # BEGIN WordPress
 <IfModule mod_rewrite.c>
 RewriteEngine On
