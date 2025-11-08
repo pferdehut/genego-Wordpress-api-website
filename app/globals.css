@@ -6,8 +6,8 @@
 
 @font-face {
   font-family: "Gioco Web";
-  src: url("https://media.genego.ch/gioco-web/Gioco-Regular.woff2") format("woff2"), url("https://media.genego.ch/gioco-web/Gioco-Regular.woff")
-    format("woff");
+  src: url("https://media.genego.ch/gioco-web/Gioco-Regular.woff2") format("woff2"),
+    url("https://media.genego.ch/gioco-web/Gioco-Regular.woff") format("woff");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -133,25 +133,37 @@
   body {
     @apply bg-background text-foreground;
   }
-  h1, h2, h3, h4, h5, h6{
-    font-weight: 600:
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 600;
   }
   h1 {
+    font-size: 3rem;
     font-family: var(--font-heading);
   }
+  h2 {
+    font-size: 2.5rem;
+  }
+  h3 {
+    font-size: 1.5rem;
+  }
   h4 {
-    font-size: 1.15rem;
+    font-size: 1.25rem;
     font-weight: 600;
     text-transform: uppercase;
-    margin: 1.5rem 0  1rem 0;
+    margin: 1.5rem 0 1rem 0;
   }
 
-  blockquote{
+  blockquote {
     border: 1px solid var(--color-accent);
     border-radius: var(--radius-xl);
   }
 
-  p{
+  p {
     margin-bottom: 1.5rem;
   }
 }
