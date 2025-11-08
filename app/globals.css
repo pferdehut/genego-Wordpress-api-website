@@ -133,6 +133,9 @@
   body {
     @apply bg-background text-foreground;
   }
+  h1, h2, h3, h4, h5, h6{
+    font-weight: 600:
+  }
   h1 {
     font-family: var(--font-heading);
   }
@@ -140,11 +143,15 @@
     font-size: 1.15rem;
     font-weight: 600;
     text-transform: uppercase;
-    margin: 1.5rem 0 calc(var(--spacing) * 2) 0;
+    margin: 1.5rem 0  1rem 0;
   }
 
   blockquote{
     border: 1px solid var(--color-accent);
     border-radius: var(--radius-xl);
+  }
+
+  p{
+    margin-bottom: 1.5rem;
   }
 }
