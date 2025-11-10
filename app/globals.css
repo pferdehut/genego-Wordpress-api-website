@@ -6,9 +6,8 @@
 
 @font-face {
   font-family: "Gioco Web";
-  src: url("https://media.genego.ch/gioco-web/Gioco-Regular.woff2") format("woff2"),
-    url("https://media.genego.ch/gioco-web/Gioco-Regular.woff") format("woff");
-  font-weight: normal;
+  src: url("/fonts/gioco-web.woff2") format("woff2"), url("/fonts/gioco-web.woff") format("woff");
+  font-weight: 600;
   font-style: normal;
   font-display: swap;
 }
@@ -143,7 +142,8 @@
   }
   h1 {
     font-size: 2.25rem;
-    font-family: var(--font-heading);
+    line-height: 2.5rem;
+    font-family: "Gioco Web", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   }
   h2 {
     font-size: 2rem;
@@ -167,7 +167,7 @@
     margin-bottom: 1.5rem;
   }
 
-  button svg{
+  button svg {
     width: 24px !important;
     height: auto !important;
   }
