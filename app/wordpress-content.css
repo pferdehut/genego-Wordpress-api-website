@@ -53,7 +53,7 @@
 /* WordPress block styles */
 .wp-block-image img {
   height: auto;
-  max-width: 100%;
+  max-width: 100% !important;
 }
 
 .wp-block-image.is-style-rounded img {
@@ -61,10 +61,14 @@
 }
 
 .wp-block-quote {
-  border-left: 4px solid;
-  padding-left: 1.5rem;
-  margin: 1.5rem 0;
-  font-style: italic;
+  border: 2px solid var(--primary) !important;
+  padding: 0 1.5rem !important;
+  margin: 0 !important;
+  border-radius: 100px !important;
+}
+
+.wp-block-quote h4{
+  margin-top: 1rem;
 }
 
 .wp-block-pullquote {
@@ -165,6 +169,7 @@
 .wp-block-column {
   flex: 1;
   min-width: 25%;
+  max-width: 100%;
 }
 
 @media (max-width: 768px) {

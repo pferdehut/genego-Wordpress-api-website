@@ -116,7 +116,7 @@ export function Header() {
                   <Link href={item.url} className="text-sm hover:text-primary transition-colors">
                     {item.title}
                   </Link>
-                  {index < menuItems.length - 1 && <span className="text-primary text-lg font-bold">·</span>}
+                  {index < menuItems.length - 2 && <span className="text-primary text-lg font-bold">·</span>}
                 </div>
               ))
             )}
