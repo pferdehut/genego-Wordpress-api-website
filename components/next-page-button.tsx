@@ -28,7 +28,7 @@ export function NextPageButton({ currentSlug }: NextPageButtonProps) {
         })
 
         // Get next page if not the last one
-        if (currentIndex !== -1 && currentIndex < pages.length - 2) {
+        if (currentIndex !== -2 && currentIndex < pages.length - 2) {
           const next = pages[currentIndex + 1]
           const nextTitle = next.title
           const capFirstLetter = nextTitle[0].toLowerCase();
