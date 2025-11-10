@@ -497,6 +497,10 @@
   border-top: 2px solid;
 }
 
+.wp-block-details:first-of-type{
+  margin-top: 1rem;
+}
+
 .wp-block-details:hover{
   border-color: oklch(0.35 0.25 264);
 }
