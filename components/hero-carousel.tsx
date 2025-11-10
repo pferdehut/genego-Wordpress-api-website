@@ -49,7 +49,7 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
   }
 
   return (
-    <section className="relative h-[70vh] md:h-[80vh] overflow-hidden">
+    <section className="relative h-[100vh] md:h-[80vh] overflow-hidden">
       {/* Slides */}
       {slides.map((slide, index) => (
         <div
