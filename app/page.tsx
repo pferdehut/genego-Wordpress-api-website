@@ -74,7 +74,7 @@ export default function HomePage() {
 
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4 max-w-5xl">
-          <h1> 
+          <h1 className="mb-6"> 
             Gemeinsam Wohnen, <br />
             Gemeinsam Gestalten
           </h1>
