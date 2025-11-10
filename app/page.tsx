@@ -74,6 +74,10 @@ export default function HomePage() {
 
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4 max-w-5xl">
+          <h1> 
+            Gemeinsam Wohnen, <br />
+            Gemeinsam Gestalten
+          </h1>
           <div className="wordpress-content" dangerouslySetInnerHTML={{ __html: pageContent }} />
         </div>
       </section>
