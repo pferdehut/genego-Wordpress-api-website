@@ -127,11 +127,13 @@ class GeNeGo_V0_Integration {
         
         $result = [];
         foreach ($pages as $page) {
+            $url = ($page->post_name === 'home') ? '/' : '/' . $page->post_name;
+            
             $result[] = [
                 'id' => $page->ID,
                 'title' => $page->post_title,
                 'slug' => $page->post_name,
-                'url' => '/' . $page->post_name,
+                'url' => $url,
                 'parent' => $page->post_parent,
             ];
         }

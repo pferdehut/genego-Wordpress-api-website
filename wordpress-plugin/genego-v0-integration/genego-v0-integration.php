@@ -155,11 +155,13 @@ function genego_get_all_pages($request) {
     
     $result = [];
     foreach ($pages as $page) {
+        $url = ($page->post_name === 'home') ? '/' : '/' . $page->post_name;
+        
         $result[] = [
             'id' => $page->ID,
             'title' => $page->post_title,
             'slug' => $page->post_name,
-            'url' => '/' . $page->post_name
+            'url' => $url
         ];
     }
     

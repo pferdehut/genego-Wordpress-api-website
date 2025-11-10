@@ -199,7 +199,16 @@ export async function fetchWordPressPages() {
     if (response.ok) {
       const pages = await response.json()
       console.log("[v0] [Server Action] Successfully fetched from plugin endpoint")
-      return pages
+
+      return pages.map((page: any, index: number) => {
+        if (index === 0 && page.slug === "home") {
+          return {
+            ...page,
+            url: "/",
+          }
+        }
+        return page
+      })
     }
   } catch (error) {
     console.log("[v0] [Server Action] Plugin endpoint failed, trying standard API")
