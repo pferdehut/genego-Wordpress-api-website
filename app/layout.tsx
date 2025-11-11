@@ -11,7 +11,10 @@ const playfair = Playfair_Display({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "GeNeGo - Genossenschaft Neumühle Goldach",
   description: "Gemeinsam Wohnen, Gemeinsam Gestalten",
-    generator: 'v0.app'
+  icons: {
+    icon: "/favicon.svg",
+  },
+  generator: "v0.app",
 }
 
 export default function RootLayout({
