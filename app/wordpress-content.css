@@ -292,6 +292,14 @@
   gap: 1.5rem;
 }
 
+.wp-block-file :nth-child(1){
+  order: 2;
+}
+
+.wp-block-file :nth-child(2){
+  order: 1;
+}
+
 .wp-block-file__button {
   padding: 0.5rem 1rem;
   background: #1127cf;
@@ -493,7 +501,7 @@
 
 /*Details*/
 .wp-block-details{
-  padding: 1rem 0;
+  padding: 1rem 0 0.5rem 0;
   border-top: 2px solid;
 }
 
@@ -513,6 +521,7 @@
   font-size: 1.25rem;
   font-weight: 500;
   cursor: pointer;
+  padding-bottom: 0.5rem;
 }
 
 .wp-block-details summary::marker {
