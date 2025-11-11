@@ -45,17 +45,13 @@ export function Header() {
       <div className="w-full bg-white">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center">
-            <img
-              src="/images/design-mode/5ccfa224-676a-4750-8a25.png"
-              alt="GeNeGo Logo"
-              className="h-8 w-auto"
-            />
+            <img src="/images/design-mode/5ccfa224-676a-4750-8a25.png" alt="GeNeGo Logo" className="h-8 w-auto" />
           </Link>
 
           {/* Mobile Menu */}
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" className="md:hidden w-14 h-14">
+              <Button variant="ghost" className="xl:hidden w-14 h-14">
                 <svg
                   width="12"
                   height="12"
@@ -107,7 +103,7 @@ export function Header() {
           </Sheet>
 
           {/* Desktop Menu */}
-          <nav className="hidden md:flex items-center gap-3">
+          <nav className="hidden xl:flex items-center gap-3">
             {isLoading ? (
               <div className="text-sm text-muted-foreground">Laden...</div>
             ) : (
