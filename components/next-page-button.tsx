@@ -51,7 +51,7 @@ export function NextPageButton({ currentSlug }: NextPageButtonProps) {
   }
 
   return (
-    <div className="mt-8 pt-8 justify-center flex">
+    <div className="pt-8 justify-center flex">
       <Link href={nextPage.url}>
         <Button size="lg" className="group rounded-full font-semibold cursor-pointer">
           Erfahre mehr über {nextPage.title}
