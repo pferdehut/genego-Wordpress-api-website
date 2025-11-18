@@ -236,10 +236,14 @@ function genego_get_posts_by_category($request) {
             $featured_image_alt = get_post_meta(get_post_thumbnail_id($post->ID), '_wp_attachment_image_alt', true);
         }
         
-        // Get excerpt
-        $excerpt = $post->post_excerpt;
-        if (empty($excerpt)) {
-            $excerpt = wp_trim_words($post->post_content, 30, '...');
+        $excerpt = '';
+        if (!empty($post->post_excerpt)) {
+            // Use wpautop to convert line breaks and preserve HTML tags
+            $excerpt = wpautop($post->post_excerpt);
+        } else {
+            // Generate excerpt from content, preserving HTML
+            $content = apply_filters('the_content', $post->post_content);
+            $excerpt = wp_trim_words($content, 30, '...');
         }
         
         $result[] = [
@@ -285,10 +289,14 @@ function genego_get_post_by_slug($request) {
         $featured_image_alt = get_post_meta(get_post_thumbnail_id($post->ID), '_wp_attachment_image_alt', true);
     }
     
-    // Get excerpt
-    $excerpt = $post->post_excerpt;
-    if (empty($excerpt)) {
-        $excerpt = wp_trim_words($post->post_content, 30, '...');
+    $excerpt = '';
+    if (!empty($post->post_excerpt)) {
+        // Use wpautop to convert line breaks and preserve HTML tags
+        $excerpt = wpautop($post->post_excerpt);
+    } else {
+        // Generate excerpt from content, preserving HTML
+        $content = apply_filters('the_content', $post->post_content);
+        $excerpt = wp_trim_words($content, 30, '...');
     }
     
     return [

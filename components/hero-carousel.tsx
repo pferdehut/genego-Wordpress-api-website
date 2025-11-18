@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 
 interface HeroSlide {
@@ -90,12 +90,13 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
         <div className="w-full bg-primary py-12 md:py-16">
           <div className="container mx-auto px-4">
             <a href="/unser-projekt">
-            <h1 className="text-4xl md:text-6xl font-bold text-primary-foreground mb-4 text-balance">
-              {slides[currentSlide]?.title}
-            </h1>
-            <p className="text-lg md:text-xl text-primary-foreground/90 text-pretty">
-              {slides[currentSlide]?.description}
-            </p>
+              <h1 className="text-4xl md:text-6xl font-bold text-primary-foreground mb-4 text-balance">
+                {slides[currentSlide]?.title}
+              </h1>
+              <div 
+                className="hero-description text-lg md:text-xl text-primary-foreground/90 text-pretty"
+                dangerouslySetInnerHTML={{ __html: slides[currentSlide]?.description }}
+              />
             </a>
           </div>
         </div>

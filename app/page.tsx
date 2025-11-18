@@ -16,9 +16,6 @@ export default function HomePage() {
   useEffect(() => {
     Promise.all([fetchWordPressPage("home"), fetchWordPressPostsByCategory("bildergalerie")])
       .then(([homeData, galleryPosts]) => {
-        console.log("[v0] Home page data:", homeData)
-        console.log("[v0] Gallery posts fetched:", galleryPosts.length)
-
         setPageContent(homeData.content || "")
 
         const slides: Array<{ id: number; image: string; title: string; description: string }> = []
@@ -29,12 +26,11 @@ export default function HomePage() {
               id: post.id,
               image: post.featuredImage,
               title: post.title,
-              description: post.excerpt.replace(/<[^>]+>/g, "").trim() || "",
+              description: post.excerpt.trim() || "",
             })
           }
         })
 
-        console.log("[v0] Created", slides.length, "slides from gallery posts")
         setGallerySlides(slides)
         setLoading(false)
       })
