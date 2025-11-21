@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title: "GeNeGo - Genossenschaft Neumühle Goldach",
   description: "Gemeinsam Wohnen, Gemeinsam Gestalten",
   icons: {
-    icon: "/favicon.svg",
+    icon: "/favicon.png",
   },
   generator: "v0.app",
 }
