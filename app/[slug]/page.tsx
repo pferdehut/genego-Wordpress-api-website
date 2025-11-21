@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation"
 import { fetchWordPressPage, fetchWordPressPostsByCategory, fetchWordPressPages } from "@/lib/wordpress-actions"
 import { NextPageButton } from "@/components/next-page-button"
+import { WordPressContentWrapper } from "@/components/wordpress-content-wrapper"
 
 export async function generateStaticParams() {
   try {
@@ -33,10 +34,7 @@ export default async function DynamicPage({ params }: { params: Promise<{ slug: 
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl md:text-5xl font-bold mb-6 text-balance">{pageData.title}</h1>
 
-          <div
-            className="prose prose-lg max-w-none wordpress-content"
-            dangerouslySetInnerHTML={{ __html: pageData.content }}
-          />
+          <WordPressContentWrapper content={pageData.content} className="prose prose-lg max-w-none wordpress-content" />
 
           {posts.length > 0 && (
             <section className="mt-16">
@@ -75,9 +73,9 @@ export default async function DynamicPage({ params }: { params: Promise<{ slug: 
                         )}
                         <div>
                           <h3 className="text-2xl font-bold mb-4">{post.title}</h3>
-                          <div
+                          <WordPressContentWrapper
+                            content={post.content}
                             className="prose prose-lg max-w-none wordpress-content"
-                            dangerouslySetInnerHTML={{ __html: post.content }}
                           />
                         </div>
                       </div>

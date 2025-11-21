@@ -5,6 +5,7 @@ import { HeroCarousel } from "@/components/hero-carousel"
 import { WaveSeparator } from "@/components/wave-separator"
 import { fetchWordPressPage, fetchWordPressPostsByCategory } from "@/lib/wordpress-actions"
 import { NextPageButton } from "@/components/next-page-button"
+import { WordPressContentWrapper } from "@/components/wordpress-content-wrapper"
 
 export default function HomePage() {
   const [pageContent, setPageContent] = useState<string>("")
@@ -70,11 +71,11 @@ export default function HomePage() {
 
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4 max-w-8xl">
-          <h1 className="mb-6"> 
+          <h1 className="mb-6">
             Gemeinsam Wohnen, <br />
             Gemeinsam Gestalten
           </h1>
-          <div className="wordpress-content" dangerouslySetInnerHTML={{ __html: pageContent }} />
+          <WordPressContentWrapper content={pageContent} className="wordpress-content" />
         </div>
       </section>
 

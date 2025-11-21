@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { fetchWordPressPage, fetchWordPressPostsByCategory } from "@/lib/wordpress-actions"
 import { NextPageButton } from "@/components/next-page-button"
+import { WordPressContentWrapper } from "@/components/wordpress-content-wrapper"
 
 export default function ProjektPage() {
   const [page, setPage] = useState<Awaited<ReturnType<typeof fetchWordPressPage>> | null>(null)
@@ -38,12 +39,7 @@ export default function ProjektPage() {
       <div className="container mx-auto px-4 max-w-4xl">
         <h1 className="text-4xl md:text-5xl font-bold mb-8 text-balance">{page.title}</h1>
 
-        <div
-          className="prose prose-lg max-w-none mb-16"
-          dangerouslySetInnerHTML={{
-            __html: page.content,
-          }}
-        />
+        <WordPressContentWrapper content={page.content} className="prose prose-lg max-w-none mb-16" />
 
         {posts.length > 0 && (
           <section className="mt-16">
@@ -82,7 +78,7 @@ export default function ProjektPage() {
                       )}
                       <div>
                         <h3 className="text-2xl font-bold mb-4">{post.title}</h3>
-                        <div className="prose prose-lg max-w-none" dangerouslySetInnerHTML={{ __html: post.content }} />
+                        <WordPressContentWrapper content={post.content} className="prose prose-lg max-w-none" />
                       </div>
                     </div>
                   </div>

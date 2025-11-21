@@ -2,6 +2,7 @@ import Link from "next/link"
 import { fetchWordPressPost, fetchWordPressPostsByCategory } from "@/lib/wordpress-actions"
 import { Button } from "@/components/ui/button"
 import { notFound } from "next/navigation"
+import { WordPressContentWrapper } from "@/components/wordpress-content-wrapper"
 
 export async function generateStaticParams() {
   try {
@@ -60,10 +61,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               </div>
             )}
 
-            <div
-              className="prose prose-lg max-w-none wordpress-content"
-              dangerouslySetInnerHTML={{ __html: post.content }}
-            />
+            <WordPressContentWrapper content={post.content} className="prose prose-lg max-w-none wordpress-content" />
           </article>
         </div>
       </main>
