@@ -105,11 +105,11 @@
   width: 100%;
 }
 
-.wp-block-table tr{
+.wp-block-table tr {
   display: inline-flex;
   /*flex-wrap: wrap;
   justify-content: space-between;*/
-  min-width: 100%
+  min-width: 100%;
 }
 
 .wp-block-table td,
@@ -125,7 +125,7 @@
   font-weight: 600;
 }
 
-.wp-block-table td:last-child{
+.wp-block-table td:last-child {
   float: right;
 }
 
@@ -292,11 +292,11 @@
   gap: 1.5rem;
 }
 
-.wp-block-file :nth-child(1){
+.wp-block-file :nth-child(1) {
   order: 2;
 }
 
-.wp-block-file :nth-child(2){
+.wp-block-file :nth-child(2) {
   order: 1;
 }
 
@@ -500,24 +500,24 @@
 }
 
 /*Details*/
-.wp-block-details{
+.wp-block-details {
   padding: 1rem 0 0.5rem 0;
   border-top: 2px solid;
 }
 
-.wp-block-details:first-of-type{
+.wp-block-details:first-of-type {
   margin-top: 1rem;
 }
 
-.wp-block-details:hover{
+.wp-block-details:hover {
   border-color: oklch(0.35 0.25 264);
 }
 
-.wp-block-details:hover summary{
+.wp-block-details:hover summary {
   color: oklch(0.35 0.25 264);
 }
 
-.wp-block-details summary{
+.wp-block-details summary {
   font-size: 1.25rem;
   font-weight: 500;
   cursor: pointer;
@@ -532,11 +532,26 @@
   color: oklch(0.35 0.25 264);
 }
 
-.wp-block-separator.is-style-dots{
+.wp-block-separator.is-style-dots {
   height: inherit;
 }
 
-.wp-block-separator.is-style-dots::before{
+.wp-block-separator.is-style-dots::before {
   content: "• • •";
   color: oklch(0.35 0.25 264);
+}
+
+/* Add wavy blue underline to all links in WordPress content */
+.wordpress-content a:not(.wp-block-button__link):not(.wp-block-file__button) {
+  text-decoration: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 4'%3E%3Cpath fill='none' stroke='%231127cf' stroke-width='1' d='M0 3c2.5 0 2.5-2 5-2s2.5 2 5 2 2.5-2 5-2 2.5 2 5 2'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-position: 0 100%;
+  background-size: 20px 4px;
+  padding-bottom: 2px;
+  transition: background-position 0.3s ease;
+}
+
+.wordpress-content a:not(.wp-block-button__link):not(.wp-block-file__button):hover {
+  background-position: 0 90%;
 }
