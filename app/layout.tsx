@@ -4,6 +4,7 @@ import { Inter, Playfair_Display } from "next/font/google"
 import "./globals.css"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
+import { Analytics } from "@vercel/analytics/react"
 
 const inter = Inter({ subsets: ["latin"] })
 const playfair = Playfair_Display({ subsets: ["latin"] })
@@ -28,6 +29,7 @@ export default function RootLayout({
         <Header />
         <main className="pt-16 break-normal hyphens-auto">{children}</main>
         <Footer />
+        <Analytics />
       </body>
     </html>
   )
