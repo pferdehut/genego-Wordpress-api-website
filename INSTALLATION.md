@@ -11,7 +11,7 @@
 In your v0 project, add the environment variable:
 
 \`\`\`
-WORDPRESS_API_URL=https://wordpress.genego.ch
+WORDPRESS_API_URL=https://wordpress.yoursite.ch
 \`\`\`
 
 **Note**: Just use your WordPress base URL. The plugin handles the rest.
@@ -56,7 +56,7 @@ The v0 app:
 
 1. Go to **Settings → Permalinks** in WordPress admin
 2. Click "Save Changes" (this refreshes rewrite rules)
-3. Test the endpoint directly: `https://wordpress.genego.ch/wp-json/genego/v1/home`
+3. Test the endpoint directly: `https://wordpress.yoursite.ch/wp-json/genego/v1/home`
 
 ### Getting 404 errors?
 
