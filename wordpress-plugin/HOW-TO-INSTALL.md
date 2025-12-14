@@ -21,7 +21,7 @@ You have two options:
 
 ## Step 2: Upload to WordPress
 
-1. Log in to your WordPress admin panel (https://your-site.ch/wp-admin)
+1. Log in to your WordPress admin panel (https://wordpress.genego.ch/wp-admin)
 2. Go to **Plugins** → **Add New**
 3. Click **Upload Plugin** at the top
 4. Click **Choose File** and select your `genego-v0-integration.zip` file
@@ -30,7 +30,7 @@ You have two options:
 
 ## Step 3: Verify Installation
 
-1. Visit: `https://your-site.ch/wp-json/genego/v1/pages`
+1. Visit: `https://wordpress.genego.ch/wp-json/genego/v1/pages`
 2. You should see a JSON response with your WordPress pages
 3. If you see data, the plugin is working correctly!
 

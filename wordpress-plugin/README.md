@@ -57,17 +57,17 @@ After activation, test the endpoints:
 
 1. **Test home endpoint**:
    \`\`\`
-   https://wordpress.your-site.ch/wp-json/genego/v1/home
+   https://wordpress.genego.ch/wp-json/genego/v1/home
    \`\`\`
 
 2. **Test pages list**:
    \`\`\`
-   https://wordpress.your-site.ch/wp-json/genego/v1/pages
+   https://wordpress.genego.ch/wp-json/genego/v1/pages
    \`\`\`
 
 3. **Test specific page**:
    \`\`\`
-   https://wordpress.your-site.ch/wp-json/genego/v1/pages/unser-projekt
+   https://wordpress.genego.ch/wp-json/genego/v1/pages/unser-projekt
    \`\`\`
 
 ## Required WordPress Pages
