@@ -11,7 +11,7 @@ export default function HomePage() {
   const [pageContent, setPageContent] = useState<string>("")
   const [loading, setLoading] = useState(true)
   const [gallerySlides, setGallerySlides] = useState<
-    Array<{ id: number; image: string; title: string; description: string }>
+    Array<{ id: number; image: string; title: string; description: string; link?: string }>
   >([])
 
   useEffect(() => {
@@ -19,15 +19,22 @@ export default function HomePage() {
       .then(([homeData, galleryPosts]) => {
         setPageContent(homeData.content || "")
 
-        const slides: Array<{ id: number; image: string; title: string; description: string }> = []
+        const slides: Array<{ id: number; image: string; title: string; description: string; link?: string }> = []
 
         galleryPosts.forEach((post) => {
           if (post.featuredImage) {
+            let link = undefined
+            if (post.tags && post.tags.length > 0) {
+              const lastTag = post.tags[post.tags.length - 1]
+              link = `/${lastTag.slug}`
+            }
+
             slides.push({
               id: post.id,
               image: post.featuredImage,
               title: post.title,
               description: post.excerpt.trim() || "",
+              link: link,
             })
           }
         })
@@ -61,6 +68,7 @@ export default function HomePage() {
             image: "/modern-sustainable-housing-development-with-green-.jpg",
             title: "Genossenschaft Neumühle Goldach",
             description: "Gemeinsam Wohnen, Gemeinsam Gestalten",
+            link: "/unser-projekt",
           },
         ]
 

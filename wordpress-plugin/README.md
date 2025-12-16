@@ -26,12 +26,12 @@ This WordPress plugin provides REST API endpoints with proper CORS support for y
 
 If you have direct server access:
 
-\`\`\`bash
+```bash
 cd /path/to/wordpress/wp-content/plugins/
 mkdir genego-v0-integration
 cd genego-v0-integration
 # Copy the genego-v0-integration.php file here
-\`\`\`
+```
 
 Then activate via WordPress admin.
 
@@ -56,19 +56,19 @@ The plugin allows requests from:
 After activation, test the endpoints:
 
 1. **Test home endpoint**:
-   \`\`\`
+   ```
    https://wordpress.genego.ch/wp-json/genego/v1/home
-   \`\`\`
+   ```
 
 2. **Test pages list**:
-   \`\`\`
+   ```
    https://wordpress.genego.ch/wp-json/genego/v1/pages
-   \`\`\`
+   ```
 
 3. **Test specific page**:
-   \`\`\`
+   ```
    https://wordpress.genego.ch/wp-json/genego/v1/pages/unser-projekt
-   \`\`\`
+   ```
 
 ## Required WordPress Pages
 

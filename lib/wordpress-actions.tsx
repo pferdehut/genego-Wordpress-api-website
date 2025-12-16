@@ -27,6 +27,12 @@ interface WordPressPost {
       source_url: string
       alt_text: string
     }>
+    "wp:term"?: Array<
+      Array<{
+        name: string
+        slug: string
+      }>
+    >
   }
 }
 
@@ -311,6 +317,7 @@ export async function fetchWordPressPostsByCategory(categorySlug: string) {
         link: post.link,
         featuredImage: post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || null,
         featuredImageAlt: post._embedded?.["wp:featuredmedia"]?.[0]?.alt_text || "",
+        tags: post._embedded?.["wp:term"]?.[1] || [], // Include tags from embedded data (index 1 is tags, 0 is categories)
       }
     })
   } catch (error) {
@@ -372,6 +379,7 @@ export async function fetchWordPressPost(slug: string) {
           link: post.link,
           featuredImage: post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || null,
           featuredImageAlt: post._embedded?.["wp:featuredmedia"]?.[0]?.alt_text || "",
+          tags: post._embedded?.["wp:term"]?.[1] || [], // Include tags from embedded data (index 1 is tags, 0 is categories)
         }
       }
     }

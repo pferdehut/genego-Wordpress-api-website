@@ -15,7 +15,7 @@ First, test if your WordPress REST API is accessible:
 ### Enable REST API (if disabled)
 
 If the REST API is disabled, add this to your `wp-config.php`:
-\`\`\`php
+```php
 // Enable REST API
 add_filter('rest_authentication_errors', function($result) {
     if (!empty($result)) {
@@ -23,7 +23,7 @@ add_filter('rest_authentication_errors', function($result) {
     }
     return true;
 });
-\`\`\`
+```
 
 ## Step 2: Install the GeNeGo Plugin (Recommended)
 

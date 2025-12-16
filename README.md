@@ -17,9 +17,9 @@ Your WordPress site needs to have the REST API enabled (it's enabled by default 
 
 Add your WordPress API URL in the **Vars** section of the v0 sidebar:
 
-\`\`\`bash
+```bash
 WORDPRESS_API_URL=https://your-wordpress-site.com/wp-json/wp/v2
-\`\`\`
+```
 
 **Important:** Make sure your URL ends with `/wp-json/wp/v2` and is publicly accessible.
 
@@ -49,10 +49,10 @@ You can use Advanced Custom Fields (ACF) plugin to add:
 
 ### 4. Running the Application
 
-\`\`\`bash
+```bash
 npm install
 npm run dev
-\`\`\`
+```
 
 Visit `http://localhost:3000`
 

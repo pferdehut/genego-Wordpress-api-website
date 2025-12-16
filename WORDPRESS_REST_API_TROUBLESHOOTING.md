@@ -5,9 +5,9 @@ Your WordPress REST API at `https://wordpress.genego.ch/wp-json/wp/v2/pages` is 
 ## Step 1: Check if REST API is Completely Disabled
 
 Visit this URL in your browser:
-\`\`\`
+```
 https://wordpress.genego.ch/wp-json/
-\`\`\`
+```
 
 **What you should see:**
 - A JSON response with information about your WordPress site
@@ -80,7 +80,7 @@ If nothing above works, install this test plugin to force-enable the REST API:
 
 **Create a file called `enable-rest-api.php`:**
 
-\`\`\`php
+```php
 <?php
 /**
  * Plugin Name: Enable REST API
@@ -110,7 +110,7 @@ add_action('rest_api_init', function() {
         return $value;
     });
 }, 15);
-\`\`\`
+```
 
 **Install it:**
 1. Save this as `enable-rest-api.php`
@@ -143,13 +143,13 @@ If the REST API still doesn't work after all these steps:
 
 If you have SSH access to your server, run these commands:
 
-\`\`\`bash
+```bash
 # Test if wp-json is accessible
 curl https://wordpress.genego.ch/wp-json/
 
 # Test with verbose output to see what's happening
 curl -v https://wordpress.genego.ch/wp-json/wp/v2/pages
-\`\`\`
+```
 
 ## What to Report Back
 

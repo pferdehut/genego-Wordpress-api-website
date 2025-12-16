@@ -246,6 +246,16 @@ function genego_get_posts_by_category($request) {
             $excerpt = wp_trim_words($content, 30, '...');
         }
         
+        $post_tags = wp_get_post_tags($post->ID);
+        $tags = [];
+        foreach ($post_tags as $tag) {
+            $tags[] = [
+                'id' => $tag->term_id,
+                'name' => $tag->name,
+                'slug' => $tag->slug
+            ];
+        }
+        
         $result[] = [
             'id' => $post->ID,
             'title' => $post->post_title,
@@ -255,7 +265,8 @@ function genego_get_posts_by_category($request) {
             'slug' => $post->post_name,
             'link' => get_permalink($post->ID),
             'featuredImage' => $featured_image,
-            'featuredImageAlt' => $featured_image_alt
+            'featuredImageAlt' => $featured_image_alt,
+            'tags' => $tags // Include tags array
         ];
     }
     
@@ -299,6 +310,16 @@ function genego_get_post_by_slug($request) {
         $excerpt = wp_trim_words($content, 30, '...');
     }
     
+    $post_tags = wp_get_post_tags($post->ID);
+    $tags = [];
+    foreach ($post_tags as $tag) {
+        $tags[] = [
+            'id' => $tag->term_id,
+            'name' => $tag->name,
+            'slug' => $tag->slug
+        ];
+    }
+    
     return [
         'id' => $post->ID,
         'title' => $post->post_title,
@@ -308,6 +329,7 @@ function genego_get_post_by_slug($request) {
         'slug' => $post->post_name,
         'link' => get_permalink($post->ID),
         'featuredImage' => $featured_image,
-        'featuredImageAlt' => $featured_image_alt
+        'featuredImageAlt' => $featured_image_alt,
+        'tags' => $tags // Include tags array
     ];
 }

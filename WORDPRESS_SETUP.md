@@ -18,9 +18,9 @@ The site works out of the box with fallback content. You can view and test the s
 
 Add the following environment variable to your project:
 
-\`\`\`bash
+```bash
 WORDPRESS_API_URL=https://your-wordpress-site.com
-\`\`\`
+```
 
 **Important:** You can provide just the base URL (e.g., `https://wordpress.genego.ch`) and the system will automatically append `/wp-json/wp/v2` to construct the proper REST API endpoint.
 
@@ -36,9 +36,9 @@ WORDPRESS_API_URL=https://your-wordpress-site.com
 
 **For local development:**
 Create a `.env.local` file in the root directory:
-\`\`\`
+```
 WORDPRESS_API_URL=https://your-wordpress-site.com
-\`\`\`
+```
 
 ### Step 3: Create Content in WordPress
 
@@ -79,7 +79,7 @@ For more complex content structures, install the Advanced Custom Fields (ACF) pl
 
 If you encounter CORS issues when testing locally, add this to your WordPress `functions.php`:
 
-\`\`\`php
+```php
 add_action('rest_api_init', function() {
     remove_filter('rest_pre_serve_request', 'rest_send_cors_headers');
     add_filter('rest_pre_serve_request', function($value) {
@@ -89,7 +89,7 @@ add_action('rest_api_init', function() {
         return $value;
     });
 }, 15);
-\`\`\`
+```
 
 ## Testing the Connection
 

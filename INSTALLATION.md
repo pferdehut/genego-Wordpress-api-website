@@ -10,9 +10,9 @@
 
 In your v0 project, add the environment variable:
 
-\`\`\`
+```
 WORDPRESS_API_URL=https://wordpress.genego.ch
-\`\`\`
+```
 
 **Note**: Just use your WordPress base URL. The plugin handles the rest.
 
